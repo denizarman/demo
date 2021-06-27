@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Demo.Api.Dtos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AuthenticationRequestDto
     {
         public string Username { get; set; }
