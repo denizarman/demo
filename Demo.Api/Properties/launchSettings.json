@@ -1,0 +1,44 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:63938",
+      "sslPort": 0
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Demo.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "DATABASE_PROVIDER": "InMemory",
+        "MINIO_ACCESSKEY": "minioadmin",
+        "DEMOCONTEXT_CONNECTIONSTRING": "Server=localhost;Database=demodb;User ID=postgres;Password=1234qqqQ",
+        "MINIO_ENDPOINT": "127.0.0.1:9000",
+        "REDIS_ADDRESS": "localhost:6379",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "MINIO_BUCKETNAME": "demobucket",
+        "MINIO_SECRETKEY": "minioadmin"
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:5000"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true
+    }
+  }
+}
