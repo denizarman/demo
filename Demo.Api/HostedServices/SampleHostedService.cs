@@ -21,7 +21,7 @@ namespace Demo.Api.HostedServices
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Timed Hosted Service running.");
+            //_logger.LogInformation("Timed Hosted Service running.");
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
                 TimeSpan.FromSeconds(5));
@@ -33,13 +33,13 @@ namespace Demo.Api.HostedServices
         {
             var count = Interlocked.Increment(ref executionCount);
 
-            _logger.LogInformation(
-                "Timed Hosted Service is working. Count: {Count}", count);
+            //_logger.LogInformation(
+            //    "Timed Hosted Service is working. Count: {Count}", count);
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Timed Hosted Service is stopping.");
+            //_logger.LogInformation("Timed Hosted Service is stopping.");
 
             _timer?.Change(Timeout.Infinite, 0);
 

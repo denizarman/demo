@@ -14,6 +14,7 @@ namespace Demo.Core.Config
         public const string MinIOAccessKey = "MINIO_ACCESSKEY";
         public const string MinIOSecretKey = "MINIO_SECRETKEY";
         public const string MinIOBucketName = "MINIO_BUCKETNAME";
+        public const string ElasticSearchUri = "ELASTICSEARCH_URI";
 
         public static string GetEnvironmentVariable(string environmentVariable)
         {

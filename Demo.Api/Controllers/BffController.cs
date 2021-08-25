@@ -4,6 +4,7 @@ using Demo.Api.Dtos;
 using Demo.Core.Entities;
 using Demo.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
@@ -18,16 +19,19 @@ namespace Demo.Api.Controllers
         private readonly IStudentService _studentService;
         private readonly IDepartmentService _departmentService;
         private readonly IRedisClientsManager _redisManager;
+        private readonly ILogger<BffController> _logger;
 
         public BffController(IDepartmentService departmentService, 
                                 IStudentService studentService, 
                                 IRedisClientsManager redisManager, 
-                                IMapper mapper)
+                                IMapper mapper,
+                                ILogger<BffController> logger)
         {
             _departmentService = departmentService;
             _studentService = studentService;
             _mapper = mapper;
             _redisManager = redisManager;
+            _logger = logger;
         }
 
         [HttpGet("departments")]

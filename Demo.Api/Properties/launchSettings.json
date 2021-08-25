@@ -25,6 +25,7 @@
         "DATABASE_PROVIDER": "InMemory",
         "MINIO_ACCESSKEY": "minioadmin",
         "DEMOCONTEXT_CONNECTIONSTRING": "Server=localhost;Database=demodb;User ID=postgres;Password=1234qqqQ",
+        "ELASTICSEARCH_URI": "http://localhost:9200",
         "MINIO_ENDPOINT": "127.0.0.1:9000",
         "REDIS_ADDRESS": "localhost:6379",
         "ASPNETCORE_ENVIRONMENT": "Development",

@@ -36,10 +36,7 @@ namespace Demo.Api.Middlewares
                     string jsonString = JsonConvert.SerializeObject(exception);
                     await context.Response.WriteAsJsonAsync(jsonString);
                 }
-                else
-                {
-                }
-
+                throw ex;
             }
         }
     }
