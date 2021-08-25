@@ -20,27 +20,32 @@ Bazı açıklamalar;
 
 *Aspect Oriented Programming (AoP), uygulama iş kurallarına dahil olmayan, altyapısal geliştirmelerin, uygulama iş kurallarından soyutlanması. Proje içerisinde bu sorumlulukta olan 2 farklı klasör olacak, middleware ve attributes. Bu klasörlerin farkları aşağıda detaylandırılacak.*
 
-Proje dizinleri ve açıklamaları
+#### Proje dizinleri ve açıklamaları
 
-#### Attributes
+##### Attributes
 
-Proje içerisinde kullanılan 2 AoP katmanından birincisi. Bu klasör içerisinde .Net'in Attribute sınıfından türeyen sınıflardan oluşacaktır. Attribute'ler Http pipeline'da *(Tüm Requestler için çalışacak akış = middleware)* **kullanılmayacak** olan AoP iş kurallarıdır.
+Proje içerisinde kullanılan 2 AoP katmanından birisidir. Bu klasör içerisinde .Net'in Attribute sınıfından türeyen sınıflardan oluşacaktır. Attribute'ler Http pipeline'da *(Tüm Requestler için çalışacak akış = middleware)* **kullanılmayacak** olan AoP iş kurallarıdır. Üzerine konduğu EndPoint için, WebAPI katmanındaki kodun önüne*(before)* ve sonuna*(after)* kontrol eklemeyi mümkün kılar. 
 
 Örnekler;
-Bazı endpointlerin, Cache attribute'ü sayesinde, response'larını cache'lemesi, requestlere cache'den yanıt vermesi,
-Bazı endpointlerin, kullanıcının gönderdiği Token içerisindeki role bilgisine göre erişim kontrolü yapması gibi.
+CacheAttribute; 
+Before: Üzerine konduğu endpoint'e gelen isteğin yanıtı, CacheProvider içerisinde var ise, Cache'den sonucu alır, ve kullanıcıya yanıt döner. 
+WebAPI: Eğer CacheProvider üzerinde veri yok ise, EndPoint katmanına düşer. Endpoint ilgili datayı veritabanından çeker.
+After: İstemciye yanıt dönmeden önce, dönülecek yanıtı Cache Provider'a iletir. 
 
-#### Controllers
+AuthorizeAttribute;
+Bir EndPoint'i belirli bir rol tarafından erişilebilir yapmak için, gelen http isteğindeki Token'ın içerisinde yetki detaylarında, Attribute üzerinde belirlenen rolün olup olmadığını kontrol eder.
 
-#### Dtos
+##### Controllers
 
-#### Filters
+##### Dtos
 
-#### Helpers
+##### Filters
 
-#### HostedServices
+##### Helpers
 
-#### Middlewares
+##### HostedServices
+
+##### Middlewares
 
 Kullanıcı Arayüz projesinin arayüzde ihtiyaç duyduğu Nesne Modellerini DTO soneki ile belirtiyoruz. 
 
