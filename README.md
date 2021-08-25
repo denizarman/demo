@@ -80,7 +80,7 @@ Uygulamada kullanılacak ortam değişkenlerinin ve sık kullanılması öngör�
 
 ##### Startup.cs
 
-*Detaylandırılacak!!!*
+Startup.cs sınıfı Program.cs tarafından oluşturulan, ve WebAPI projesinin Servis Tanımlarının (ConfigureServices()) ve Pipeline'ın(Configure()) konfigüre edildiği sınıftır. Gerekli yorumlar startup.cs içerisinde detaylandırılmıştır. *DETAYLANDIR!!!*
 
 ##### Program.cs
 
