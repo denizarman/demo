@@ -14,9 +14,11 @@ Bootstrapper projesi olduğu için, .NetCore'un IoC Container yapısı bu proje 
 
 Kullanıcı Arayüzü, bu katmanla entegre olacağı için, kullanıcı arayüz iş kuralları için yazılacak cross cutting concerns, validasyon, mapping gibi işlemler bu katmana adreslenmelidir. 
 
-Bazı açıklamalar,
+<img src="./documentation_resources/demoapi.png" align="left" height="120" />
 
-*Aspect Oriented Programming, uygulama iş kurallarına dahil olmayan, altyapısal geliştirmelerin, uygulama iş kurallarından soyutlanması. Proje içerisinde bu sorumlulukta olan 2 farklı klasör olacak, middleware ve attributes.*
+Bazı açıklamalar;
+
+*Aspect Oriented Programming (AoP), uygulama iş kurallarına dahil olmayan, altyapısal geliştirmelerin, uygulama iş kurallarından soyutlanması. Proje içerisinde bu sorumlulukta olan 2 farklı klasör olacak, middleware ve attributes. Bu klasörlerin farkları aşağıda detaylandırılacak.*
 
 Proje dizinleri ve açıklamaları
 
