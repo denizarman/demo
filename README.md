@@ -44,18 +44,54 @@ Bunun dışında da mantıksal olarak bu sınıfları ayırmak önerilir. Kullan
 
 ##### Dtos
 
+Arayüz nesneleri ile, veritabanı nesneleri çoğu zaman aynı olmayacak, ya da gelen bazı istek nesnelerinin veritabanında bir karşılığı olmayacaktır. Login isteğindeki, kullanıcı adı ve parolası gibi (veritabanında User tablosunda tutulduğunu düşünün). Bu gibi durumları standartlaştırmak için, ve birden fazla arayüz istemcisine en az miktarda kod yazdırmak için, Backend katmanı, çalıştırdığı iş kurallarından sonra, elindeki nesneyi, arayüzün beklediği nesne tipine çevirir. 
+
+Bu arayüzün istediği nesne yapısındaki nesnelerimize, eğer bu sunucuya gelen bir istek ise, RequestDto, bu sunucudan yanıt dönen bir nesne ise, ResponseDto soneki ile adlandırıyoruz *(AuthenticationRequestDto veya AuthenticationResponeDto gibi)*.
+
+Dto nesneleri sadece serileştirme ve deserileştirme işlemlerinde kullanılacakları için, Constructor ve Propertyler bulundurmalıdırlar, method olmamalıdır.  
+
 ##### Filters
+
+???
 
 ##### Helpers
 
+Sunum katmanının ihtiyacı olacak, yardım sınıflarının bulunduğu dizindir. 
+
+Örneğin, indirilecek dosyanın uzantısına göre, mime-type mapping sınıfı, ya da Upload edilen bir Stream'in dosyalaştırılma işlemi gibi.
+
 ##### HostedServices
+
+HostedService, .Net Core'un kendi sunduğu HttpPipeline haricinde tetiklenebilen (özellikle time trigger) asenkron işlem altyapısı için kullanılan sınıftır. HostedService sınıfından türettiğimiz sınıfları bu dizinde birleştireceğizdir.
 
 ##### Middlewares
 
-Kullanıcı Arayüz projesinin arayüzde ihtiyaç duyduğu Nesne Modellerini DTO soneki ile belirtiyoruz. 
+Solution içerisinde yer alan diğer AoP katmanıdır. Middleware'ler startup.cs sınıfında HttpPipeline'a inject edilir. İnject edilme sırasına göre, istek henüz Controller katmanına ulaşmamışken kodun önüne*(before)* ve sonuna*(after)* kontrol eklemeyi mümkün kılar. Genel geçer cross-cutting concernler için kullanışlıdır. 
+
+Örneğin;
+
+ExceptionHandling; Uygulamada fırlatılan herhangi bir hatayı, uygulama iş kurallarının dışında yakalamak ve dönecek yanıtı yönetmek için kullanılabilir.
+LogMiddleware; Gelen ve giden tüm istekleri loglamak için kullanılabilir.
+AuthenticationMiddleware; Gelen isteklerin Header'ındaki Token'ın decrypt edilmesi ve Global değişkenlere atanması için kullanılabilir.
+
+##### appsettings.json
+
+Uygulamada kullanılacak ortam değişkenlerinin ve sık kullanılması öngörülen parametrelerin, *geliştirme sırasında* okunabileceği ayarlar dosyası. Json notasyonuyla ifade edilir. Ancak microservislerimiz, K8s cluster'ına deploy edileceği zaman bu dosya kullanılmayacaktır, detaylı açıklama Containerization başlığı altında tariflenmiştir.
+
+##### Startup.cs
+
+*Detaylandırılacak!!!*
+
+##### Program.cs
+
+Uygulama çalıştırıldığında, işletim sistemi tarafından ilk tetiklenen sınıftır. Uygulama domain'i dışında, altyapı işlemleri için müdehale edilebilir. Eğer veritabanın yoksa veritabanını oluştur, LogProvider olarak Serilog kullanılacak gibi
 
 ### Demo.Core
 
 ### Demo.Data
 
 ### Demo.Service
+
+## Migration
+
+## Containerization
