@@ -3,9 +3,8 @@
 Solution, microservis mimarisi örnek yapısı, kod örnekleri ve kodlama standartlarını tarifler.
 
 ## Proje Hiyerarşisi <img src="./documentation_resources/projects.png" align="right" height="120" />
-<br/>
-<br/>
-<br/>
+
+
 ### Demo.Api
 
 ### 
