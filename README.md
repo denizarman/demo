@@ -16,7 +16,7 @@ Kullanıcı Arayüzü, bu katmanla entegre olacağı için, kullanıcı arayüz 
 
 Bazı açıklamalar,
 
-*Aspect Oriented Programming, uygulama iş kurallarına dahil olmayan, altyapısal geliştirmelerin, uygulama iş kurallarından soyutlanması. Proje içerisinde bu sorumlulukta olan 2 farklı klasör olacak, middleware ve attributes. *
+*Aspect Oriented Programming, uygulama iş kurallarına dahil olmayan, altyapısal geliştirmelerin, uygulama iş kurallarından soyutlanması. Proje içerisinde bu sorumlulukta olan 2 farklı klasör olacak, middleware ve attributes.*
 
 Proje dizinleri ve açıklamaları
 
