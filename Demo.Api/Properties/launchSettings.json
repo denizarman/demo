@@ -22,7 +22,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "DATABASE_PROVIDER": "InMemory",
+        "DATABASE_PROVIDER": "PgSql",
         "MINIO_ACCESSKEY": "minioadmin",
         "DEMOCONTEXT_CONNECTIONSTRING": "Server=localhost;Database=demodb;User ID=postgres;Password=1234qqqQ",
         "ELASTICSEARCH_URI": "http://localhost:9200",

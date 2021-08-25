@@ -107,7 +107,7 @@ namespace Demo.Api
                 try
                 {
                     var context = services.GetRequiredService<DemoContext>();
-                    //context.Database.EnsureCreated();
+                    context.Database.EnsureCreated();
                     DataGenerator.Initialize(context);
                 }
                 catch (Exception ex)
