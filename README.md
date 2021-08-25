@@ -14,7 +14,7 @@ Bootstrapper projesi olduğu için, .NetCore'un IoC Container yapısı bu proje 
 
 Kullanıcı Arayüzü, bu katmanla entegre olacağı için, kullanıcı arayüz iş kuralları için yazılacak cross cutting concerns, validasyon, mapping gibi işlemler bu katmana adreslenmelidir. 
 
-<img src="./documentation_resources/demoapi.png" align="left" height="120" />
+<img src="./documentation_resources/demoapi.png" align="left" height="200" />
 
 Bazı açıklamalar;
 
@@ -24,7 +24,11 @@ Proje dizinleri ve açıklamaları
 
 #### Attributes
 
-Proje içerisinde 
+Proje içerisinde kullanılan 2 AoP katmanından birincisi. Bu klasör içerisinde .Net'in Attribute sınıfından türeyen sınıflardan oluşacaktır. Attribute'ler Http pipeline'da *(Tüm Requestler için çalışacak akış = middleware)* **kullanılmayacak** olan AoP iş kurallarıdır.
+
+Örnekler;
+Bazı endpointlerin, Cache attribute'ü sayesinde, response'larını cache'lemesi, requestlere cache'den yanıt vermesi,
+Bazı endpointlerin, kullanıcının gönderdiği Token içerisindeki role bilgisine göre erişim kontrolü yapması gibi.
 
 #### Controllers
 
