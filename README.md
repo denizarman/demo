@@ -88,6 +88,21 @@ Uygulama çalıştırıldığında, işletim sistemi tarafından ilk tetiklenen 
 
 ### Demo.Core
 
+Projenin tüm katmanlarında kullanılacak, sunu, iş kuralı veya veri erişimi haricindeki sınıfların yerleştirileceği projedir. Tüm projeler Core projesinden referans almalıdır. 
+
+<img src="./documentation_resources/democore.png" align="left" height="200" />
+
+#### Proje dizinleri ve açıklamaları
+
+##### Config
+
+İhtiyaca göre, eğer config dosyaları okunacaksa oluşturulabilecek bir dizin. Demo projesinde, appsettings.json kullanımı olduğu için, dosyanın deserileştirildiği bir sınıf ve environment variables yönetmek için konulmuş sınıf örneği var. Appsetting.json ve EnvironmentVariable kullanım amacı farkı için, Containerization bölümünü inceleyebilirsiniz. 
+
+##### Entities
+##### Exceptions
+##### Helpers
+##### Models
+
 ### Demo.Data
 
 ### Demo.Service
