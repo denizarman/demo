@@ -18,7 +18,7 @@ Kullanıcı Arayüzü, bu katmanla entegre olacağı için, kullanıcı arayüz 
 
 Bazı açıklamalar;
 
-*Aspect Oriented Programming (AoP), uygulama iş kurallarına dahil olmayan, altyapısal geliştirmelerin, uygulama iş kurallarından soyutlanması. Proje içerisinde bu sorumlulukta olan 2 farklı klasör olacak, middleware ve attributes. Bu klasörlerin farkları aşağıda detaylandırılacak.*  
+*Aspect Oriented Programming (AoP), uygulama iş kurallarına dahil olmayan, altyapısal geliştirmelerin, uygulama iş kurallarından soyutlanması. Proje içerisinde bu sorumlulukta olan 2 farklı klasör olacak, middleware ve attributes. Bu klasörlerin farkları aşağıda detaylandırılacak.*
 
 #### Proje dizinleri ve açıklamaları
 
@@ -37,6 +37,10 @@ AuthorizeAttribute;
 Bir EndPoint'i belirli bir rol tarafından erişilebilir yapmak için, gelen http isteğindeki Token'ın içerisinde rol listesinde, Attribute üzerinde belirlenen rolün olup olmadığını kontrol eder.
 
 ##### Controllers
+
+WebAPI Projesinin, EndPoint sınıflarının yerleştirildiği dizindir. Burada Controller olarak sınıfları ayrıştırmak isteklerin path'lerini değiştirecektir. Pipeline üzerinde geliştirilecek özel kod blokları sayesinde, farklı Controller class'larının farklı akışlardan geçmesi sağlanabilir. 
+
+Bunun dışında da mantıksal olarak bu sınıfları ayırmak önerilir. Kullanıcı işlemleri için UserController, Dokümantasyon işlemlerini ayırmak için, DocumentController gibi ayrımlar okunurluğu ve idame edilebilirliği kolaylaştıracaktır. 
 
 ##### Dtos
 
