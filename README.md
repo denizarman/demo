@@ -99,14 +99,45 @@ Projenin tüm katmanlarında kullanılacak, sunu, iş kuralı veya veri erişimi
 İhtiyaca göre, eğer config dosyaları okunacaksa oluşturulabilecek bir dizin. Demo projesinde, appsettings.json kullanımı olduğu için, dosyanın deserileştirildiği bir sınıf ve environment variables yönetmek için konulmuş sınıf örneği var. Appsetting.json ve EnvironmentVariable kullanım amacı farkı için, Containerization bölümünü inceleyebilirsiniz. 
 
 ##### Entities
+
+Veritabanı şemasına karşılık gelecek, sınıfların bulunduğu dizindir. 
+
 ##### Exceptions
+
+Uygulamada kendi implemente ettiğimiz, CustomException'lar kullanmak istersek, ekleyebileceğimiz dizindir. Bu exception'lar, ExceptionMiddleware katmanında, tanımlı bir HttpStatus code'a map'lenmek için kullanılabilir.
+
 ##### Helpers
+
+Uygulama genelinde kullanılacak yardımcı sınıfların yerleştirileceği dizindir.
+
 ##### Models
+
+Veritabanı Entity'si olmadığı halde, katmanlar ya da sınıflar arası veri taşıma amacıyla kullanılacak nesneler için oluşturulan dizindir.
 
 ### Demo.Data
 
 ### Demo.Service
 
+## İsimlendirme Standartları
+
+
+
 ## Migration
 
+Migration işlemi, CodeFirst yaklaşımıyla geliştirilen projelerde, Entity Schema üzerinde yapılan değişikliklerin, fark scriptlerinin oluşturulması ve hedef veritabanına uygulanmasıdır. 
+Akış şu şekilde gerçekleşmektedir. 
+Api ve Data katmanlarına, EntityFrameworkCore.Tools nuget paketi indirilmelidir.
+Yazılımcı, VisualStudio üzerindeki, PackageManageConsole üzerinden, DefaultProject:Demo.Data seçimi yaparak "Add-Migration init" komutu çalıştırdığında, uygulamanın entity schemasına uygun sql create scriptleri oluşturacaktır.
+Data projesinin altında Migration isimli bir klasör ve içerisinde tarih öneki ile yyyymmddHHMMSS-init.cs sınıfının oluştuğu görülecektir.
+Program.cs'deki ...context.Migrate() methodu çalıştırıldığında, *(program.cs'de olduğu uygulama çalıştığında çalışmak zorunda)* bu fark scriptleri uygulamanın bağlandığı veritabanına uygulanacaktır.
+Veritabanı incelendiğinde, __EFMigrationHistory isimli bir tablonun oluştuğu görülecektir. Bu tablo uygulanan her migration kaydının ismini tutmaktadır. Bu sayede, n migration geriden gelen bir ortama kurulum yapıldığında, eksik 3 migration uygulanacak ve veritabanı şeması uygulamanın entity şeması ile senkronize olacaktır. 
+İlerleyen süreçte yazılımcı, EntitySchema üzerinde değişiklik yaptığında, bu değişikliklerin çalıştığı veritabanına yansıması için, tekrar "Add-Migration MIGRATIONNAME" komutu çalıştırmalıdır. 
+Uygulama ayağa kalkarken, *(Çalıştığı ortamdan bağımsız)* eksik olan migration scriptlerini çalıştıracak ve veritabanı şemasını, entity şemasıyla aynı yapacaktır. 
+
+<img src="./documentation_resources/efmigrationhistory.png" align="right" height="200" />
+
+EntityFrameWorkCore.Tools paketi indirilmeli
+$env:DATABASE_PROVIDER="PgSql"
+$env:DEMOCONTEXT_CONNECTIONSTRING="Server=localhost;Database=demodb;User ID=postgres;Password=1234qqqQ"
+Add-Migration init
 ## Containerization
