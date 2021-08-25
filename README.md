@@ -6,7 +6,8 @@ Solution, microservis mimarisi örnek yapısı, kod örnekleri ve kodlama standa
 
 ### Demo.Api
 
-Backend microservis'in sunu katmanı ve .Net Core Solution'ının bootstrap projesidir. 
+Backend microservis'in sunu katmanı ve .Net Core Solution'ının bootstraper projesidir. 
+Bootstrapper projesi olduğu için, .NetCore'un IoC Container yapısı bu proje dahilinde bulunacaktır. Bu nedenle, **diğer tüm projelerin referansı bu projeye eklenmelidir.**
 
 ### Demo.Core
 
