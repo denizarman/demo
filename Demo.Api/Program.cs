@@ -2,6 +2,7 @@ using Demo.Api.HostedServices;
 using Demo.Core.Config;
 using Demo.Data.DatabaseContext;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -107,7 +108,7 @@ namespace Demo.Api
                 try
                 {
                     var context = services.GetRequiredService<DemoContext>();
-                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
                     DataGenerator.Initialize(context);
                 }
                 catch (Exception ex)
