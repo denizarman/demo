@@ -28,15 +28,21 @@ namespace Demo.Api.Middlewares
             catch (Exception ex)
             {
                 ExceptionDto exception;
-                if (ex is FileNotFoundException ||
-                    ex is KeyNotFoundException ||
-                    ex is DirectoryNotFoundException)
-                {
-                    exception = new ExceptionDto(ex, StatusCodes.Status404NotFound);
-                    string jsonString = JsonConvert.SerializeObject(exception);
-                    await context.Response.WriteAsJsonAsync(jsonString);
-                }
-                throw ex;
+                //if (ex is FileNotFoundException ||
+                //    ex is KeyNotFoundException ||
+                //    ex is DirectoryNotFoundException)
+                //{
+                exception = new ExceptionDto(ex, StatusCodes.Status404NotFound);
+                //string jsonString = JsonConvert.SerializeObject(exception);
+                await context.Response.WriteAsJsonAsync<ExceptionDto>(exception);
+
+
+                //string serializedResponse = JsonConvert.
+                //    SerializeObject(new Exception(ex.Message));
+                //context.Response.StatusCode = 303;
+                //await context.Response.WriteAsync(serializedResponse);
+                //}
+                //throw ex;
             }
         }
     }

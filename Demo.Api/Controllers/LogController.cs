@@ -44,5 +44,11 @@ namespace Demo.Api.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("throwexception")]
+        public ActionResult ThrowException()
+        {
+            throw new Exception($"Some exception");
+        }
     }
 }

@@ -134,10 +134,6 @@ Veritabanı incelendiğinde, __EFMigrationHistory isimli bir tablonun oluştuğu
 İlerleyen süreçte yazılımcı, EntitySchema üzerinde değişiklik yaptığında, bu değişikliklerin çalıştığı veritabanına yansıması için, tekrar "Add-Migration MIGRATIONNAME" komutu çalıştırmalıdır. 
 Uygulama ayağa kalkarken, *(Çalıştığı ortamdan bağımsız)* eksik olan migration scriptlerini çalıştıracak ve veritabanı şemasını, entity şemasıyla aynı yapacaktır. 
 
-<img src="./documentation_resources/efmigrationhistory.png" align="right" height="200" />
+<img src="./documentation_resources/efmigrationhistory.png" align="right" height="300" />
 
-EntityFrameWorkCore.Tools paketi indirilmeli
-$env:DATABASE_PROVIDER="PgSql"
-$env:DEMOCONTEXT_CONNECTIONSTRING="Server=localhost;Database=demodb;User ID=postgres;Password=1234qqqQ"
-Add-Migration init
 ## Containerization
