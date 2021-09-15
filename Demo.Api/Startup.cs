@@ -88,7 +88,7 @@ namespace Demo.Api
 
             #endregion
 
-            #region Serialization Confituration
+            #region Serialization Configuration
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>

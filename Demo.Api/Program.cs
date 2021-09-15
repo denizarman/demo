@@ -29,6 +29,7 @@ namespace Demo.Api
                 .Enrich.WithProperty("Application", "DemoApi.Project")
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
+                .WriteTo.Http(EnvVars.LogStashUri, restrictedToMinimumLevel: LogEventLevel.Verbose)
                 .WriteTo.Elasticsearch(
                     new ElasticsearchSinkOptions(
                         new Uri(EnvVars.GetEnvironmentVariable(EnvVars.ElasticSearchUri)))
