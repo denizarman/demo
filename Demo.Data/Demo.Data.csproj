@@ -1,15 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Demo.Core\Demo.Core.csproj" />
+    <Compile Remove="UnitOfWork\**" />
+    <EmbeddedResource Remove="UnitOfWork\**" />
+    <None Remove="UnitOfWork\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UnitOfWork\" />
+    <ProjectReference Include="..\Demo.Core\Demo.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
