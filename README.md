@@ -116,11 +116,45 @@ Veritabanı Entity'si olmadığı halde, katmanlar ya da sınıflar arası veri 
 
 ### Demo.Data
 
+Projenin veri erişim operasyonlarını soyutlamak için geliştirilen katmandır. Service katmanı tarafından kullanılmalıdır, ancak Dependency Injection nedeniyle Api katmanı da referans almaktadır. Örnek proje EF ile geliştirilmiştir ancak projenin bir ilişkisel veritabanı yerine NoSQL bir veritabanı kullanmasına karar verilirse, güncelleme yapılması gereken tek katman bu Data katmanı ve Startup.cs'de bulun DI kodlarının güncellenmesi olmalıdır. 
+
+<img src="./documentation_resources/demodata.png" align="left" height="200" />
+
+#### Proje dizinleri ve açıklamaları
+
+##### DatabaseContext
+
+EF kullanılan projelerde veritabanı erişim kurallarını soyutlaştıran sınıfların (DbContext) konumlandırıldığı dizindir. Entity katmanında belirlediğimiz nesnelerin veritabanında karşılık tablolarının oluşturulması için bu klasördeki ilgili DbContext nesnesine DbSet'lerinin eklenmesi gerekmektedir.
+
+##### Migrations
+
+Migration bölümünde tariflenen Add-Migration komutu ile oluşturulan fark scriptlerini oluşturmakla görevli sınıfların bulunduğu dizindir. Yine PackageManageConsole'dan update-database komutu çalıştırıldığında bu scripler hedef veritabanı üzerinde uygulanır. Proje autoMigration olarak geliştirildiği için, bu scripler otomatik çalışmaktadır.
+
+##### Repositories
+
+Veritabanı erişim methodlarının bulunduğu dizindir. Repository bir RBMS veri kaynağı olabileceği gibi bir WebService ya da dosya da olabilir, bu sınıfların amacı, verinin okunduğu kaynağa ait iş kurallarını bulunurmak, veri katmanı değiştiğinde aynı IRepository interface'lerine ait başka bir Implementasyon yazıldığında, uygulamanın geri kalanı bu değişimden hiç etkilememektir.
+
+Örneğin UserRepository IUserRepository'den implemente olmaktadır, ve RBMS katmanı için yazılan GenericRepository nesnesinden inherit olmaktadır. Projede kullanıcı bilgileri MongoDB'de tutulmaya karar verilirse, IUserRepository'den türetilecek bir MongoUserRepository sınıfı oluşturulur ve StartUp.cs'de IUserRepository'lerin MongoUserRepository olduğu tariflenirse, uygulama başka bir geliştirme olmaksızın kullanıcı verisini Mongo veritabanlarına yazmaya başlayacaktır.
+
+GenericRepository.cs bu katmanın en çok kullanılan sınıfıdır. GenericType kabiliyeti ile, BaseEntitiy'den oluşmuş olan bu sınıf, GenericParametre olarak alacağı herhangi bir entity'nin veritabanındaki rutin methodlarının yönetiminde kullanılabilir. 
+
 ### Demo.Service
+
+Uygulama iş kurallarının bulunduğu katmandır. Örnek uygulama CRUD olduğu için sadece DataAccess katmanına iletim gibi görünmekte ancak UserService'de Authenticate methodunda olduğu gibi bir iş kuralı işletileceğinde doğru katman burası olmalıdır. Bir fatura hesaplama, ya da birbirinden farklı veri kaynaklarından veri çekilip birleştirme gibi görevler bu katmanda gerçekleşmektedir.
+
+<img src="./documentation_resources/demoservice.png" align="left" height="200" />
+
+#### Proje dizinleri ve açıklamaları
+
+##### Services
+
+Uygulama iş kurallarının bulunacağı katmandır. Repositoryler ve Entity'ler 1-1 ilişkide iken, Service'ler ve Repository'ler 1-N ilişkide gruplanabilir. Service katmanı geliştiricinin kendi mantıksal gruplamasına göre birden fazla Repository referansı alabilmekte olup veriler arasındaki bütünlüğü kurabilirler. 
+
+Ancak dikkat edilmesi gereken, bir repository bir service sınıfı ile ilişkilendirildiğinde, diğer service sınıfları o repository'i referans almak yerine, ilgili service sınıfını referans alıp, o sınıf üzerinden veri erişimini gerçeklemelidir. Aksi durumda, aynı veri erişiminin kodu, iki service sınıfında olacaktır ve idameyi güçleştirecektir.
 
 ## İsimlendirme Standartları
 
-
+?
 
 ## Migration
 
