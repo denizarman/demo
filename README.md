@@ -235,8 +235,8 @@ Bu aşamanın ayrı bir intermediate container olmasının sebebi, docker'ın ku
 
 ### 3. Bölüm
 
-FROM build AS publish
-RUN dotnet publish "Demo.Api.csproj" -c Release -o /app/publish
+*FROM build AS publish
+RUN dotnet publish "Demo.Api.csproj" -c Release -o /app/publish*
 
 dotnet publish komutuyla, host edilmeye hazır dosyalanmış binaryleri /app/publish altına oluşturur.
 
@@ -244,7 +244,7 @@ Bir önceki aşamadaki oluşturulan build container'ı üzerinde publish işlemi
 
 ### 4. Bölüm
 
-FROM base AS final
+*FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Demo.Api.dll"]*
