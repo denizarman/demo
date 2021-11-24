@@ -50,10 +50,6 @@ Bu arayüzün istediği nesne yapısındaki nesnelerimize, eğer bu sunucuya gel
 
 Dto nesneleri sadece serileştirme ve deserileştirme işlemlerinde kullanılacakları için, Constructor ve Propertyler bulundurmalıdırlar, method olmamalıdır.  
 
-##### Filters
-
-???
-
 ##### Helpers
 
 Sunum katmanının ihtiyacı olacak, yardım sınıflarının bulunduğu dizindir. 
@@ -152,10 +148,6 @@ Uygulama iş kurallarının bulunacağı katmandır. Repositoryler ve Entity'ler
 
 Ancak dikkat edilmesi gereken, bir repository bir service sınıfı ile ilişkilendirildiğinde, diğer service sınıfları o repository'i referans almak yerine, ilgili service sınıfını referans alıp, o sınıf üzerinden veri erişimini gerçeklemelidir. Aksi durumda, aynı veri erişiminin kodu, iki service sınıfında olacaktır ve idameyi güçleştirecektir.
 
-## İsimlendirme Standartları
-
-?
-
 ## Migration
 
 Migration işlemi, CodeFirst yaklaşımıyla geliştirilen projelerde, Entity Schema üzerinde yapılan değişikliklerin, fark scriptlerinin oluşturulması ve hedef veritabanına uygulanmasıdır. 
@@ -171,3 +163,91 @@ Uygulama ayağa kalkarken, *(Çalıştığı ortamdan bağımsız)* eksik olan m
 <img src="./documentation_resources/efmigrationhistory.png" align="right" height="300" />
 
 ## Containerization
+
+VisualStudio 2019 ve üzeri versiyonlarında, Docker desteği IDE tarafından sağlanıyor. Proje oluşturulurken Add Docker Support denerek IDE tarafından Dockerfile oluşturulması sağlanabilir, ancak bu şekilde oluşturulacak projeler, henüz Solution'lardaki diğer projelerden referans almadığı için, projeleri birbirlerine referans gösterdikçe güncelliğini kaybedecektir. 
+Solution'da tüm projeler oluşturulduktan ve birbirlerine referansları tamamlandıktan sonra Dockerfile'ın oluşturulması daha güvenilir bir yöntemdir. Herhangi bir proje referansı güncellenmedikçe, bu şekilde oluşturulan Dockerfile projenin Containerization süreçleri için yeterli olacaktır. Deploy edilecek proje seçilerek, sağ click, Add -> Docker Support denerek Visual Studio IDE'si tarafından Dockerfile oluşturulabilir. 
+
+API projesi örneği için, oluşturulan Dockerfile ve açıklaması
+
+*FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
+WORKDIR /src
+COPY ["Demo.Api/Demo.Api.csproj", "Demo.Api/"]
+COPY ["Demo.Service/Demo.Service.csproj", "Demo.Service/"]
+COPY ["Demo.Data/Demo.Data.csproj", "Demo.Data/"]
+COPY ["Demo.Core/Demo.Core.csproj", "Demo.Core/"]
+RUN dotnet restore "Demo.Api/Demo.Api.csproj"
+COPY . .
+WORKDIR "/src/Demo.Api"
+RUN dotnet build "Demo.Api.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Demo.Api.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Demo.Api.dll"]*
+
+### Dockerfile Keyword'leri
+
+FROM 		: Dockerfile'da oluşturulmak istenen Docker Image'ının kalıtım aldığı Docker Image'ı nı belirlemektedir.
+WORKDIR		: İşletim sistemi üzerindeki dizin değiştirme komutudur. Linux ve Windows'taki **cd** komutu gibi değerlendirilebilir.
+EXPOSE		: Docker Container'ın işletim sisteminin dışarıya açacağı Port'u belirler. 
+COPY		: Host makinadan, Docker Image'ının içerisine dosya kopyalamak için kullanılır.
+RUN			: Docker Image'ı oluşturulurken komut çalıştırmak için kullanılır.
+ENTRYPOINT	: Docker Image'ı **run** veya **start** edildiğinde, bu satırdaki komut çalıştırılır. (Docker Container'ın içerisindeki 1 numaralı Process'i oluşturur. Bu process kapandığında Docker Container'ı stop durumuna geçer).
+
+### 1. Bölüm
+
+*FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
+WORKDIR /app
+EXPOSE 80*
+
+Microsoft'un Docker Repository'sinden, seçilen .NetCore versiyonuna uygun .NetCore Runtime kurulu Ubuntu işletim sistemli bir baz imaj üzerinde ismi *base* olan bir Docker Container'ı oluşturur.
+*/app* isminde bir dizin oluşturur. 
+80 Portunu dışarı açar.
+
+### 2. Bölüm
+
+*FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
+WORKDIR /src
+COPY ["Demo.Api/Demo.Api.csproj", "Demo.Api/"]
+COPY ["Demo.Service/Demo.Service.csproj", "Demo.Service/"]
+COPY ["Demo.Data/Demo.Data.csproj", "Demo.Data/"]
+COPY ["Demo.Core/Demo.Core.csproj", "Demo.Core/"]
+RUN dotnet restore "Demo.Api/Demo.Api.csproj"
+COPY . .
+WORKDIR "/src/Demo.Api"
+RUN dotnet build "Demo.Api.csproj" -c Release -o /app/build*
+
+Microsoft'un Docker Repository'sinden, seçilen .NetCore versiyonuna uygun .NetCore SDK kurulu Ubuntu işletim sistemli bir baz imaj üzerinde ismi *build* olan bir Docker Container'ı oluşturur.
+*/src* isminde bir dizin oluşturur ve aktif dizin olarak işaretler.
+Çalıştırılacak olan projenin ve referans olan tüm projelerin csproj dosyasını ve kaynak kodlarını /src dizinine kopyalar. 
+dotnet restore komutu ile, eksik nugget paketlerini günceller.
+
+dotnet  build komutuyla uygulamayı derler ve binaryleri */app/build* dizinine kopyalar.
+
+Bu aşamanın ayrı bir intermediate container olmasının sebebi, docker'ın kullandığı layer cache kabiliyetidir. Kaynak kod üzerinde bir değişiklik yapılmadığı sürece, cache validasyon süresince gerçeklenecek tüm build işlemleri docker cache sayesinde performansı etkiyecektir.
+
+### 3. Bölüm
+
+FROM build AS publish
+RUN dotnet publish "Demo.Api.csproj" -c Release -o /app/publish
+
+dotnet publish komutuyla, host edilmeye hazır dosyalanmış binaryleri /app/publish altına oluşturur.
+
+Bir önceki aşamadaki oluşturulan build container'ı üzerinde publish işlemi gerçekleştirir. Kullandığımız senaryoda çok etkisi olmasada, bu aşamaları ayırmanın nedeni, publish aşamasının farklı yönetilebilmesi içindir. Ayrı bir aşama olarak kullanılmasının nedeni de bir önceki bölümde belirttiğim gibi, docker cache kullanabilmektir.
+
+### 4. Bölüm
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Demo.Api.dll"]*
+
+publish container'ındaki dosyalanmış binaryleri ilk oluşturduğumuz dotnet runtime kurulu container'ın içerisine kopyalar. 
+dotnet Demo.Api.dll komutu ile, uygulamayı ayağa kaldırır. 
